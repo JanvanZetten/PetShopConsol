@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EASV.PetShopConsol.Core\EASV.PetShopConsol.Core.csproj" />
+    <ProjectReference Include="..\EASV.PetShopConsol.Core.Entity\EASV.PetShopConsol.Core.Entity.csproj" />
+  </ItemGroup>
+</Project>
