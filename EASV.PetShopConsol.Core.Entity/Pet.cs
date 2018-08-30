@@ -3,7 +3,7 @@ namespace EASV.PetShopConsol.Core.Entity
 {
     public class Pet
     {
-        public int Id { get; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public AnimalType Type { get; set; }
         public DateTime Birthday { get; set; }
@@ -11,11 +11,5 @@ namespace EASV.PetShopConsol.Core.Entity
         public string Color { get; set; }
         public string PreviousOwner { get; set; }
         public double Price { get; set; }
-
-        public Pet(int Id)
-        {
-            this.Id = Id;
-        }
-
     }
 }
