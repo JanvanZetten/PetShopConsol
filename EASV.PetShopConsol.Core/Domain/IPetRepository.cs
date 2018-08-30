@@ -9,5 +9,6 @@ namespace EASV.PetShopConsol.Core.Domain
         Pet SavePet(Pet pet);
         IEnumerable<Pet> GetPets();
         void DeletePet(Pet pet);
+        void EditPet(Pet petForEditing);
     }
 }

@@ -122,6 +122,7 @@ namespace EASV.PetShopConsol.Menu
                 Console.WriteLine("Whats the new price:");
                 petForEditing.Price = ReadDouble();
             }
+            _PetService.EditPet(petForEditing);
         }
 
         private void DeletePet()

@@ -12,5 +12,6 @@ namespace EASV.PetShopConsol.Core.Application
         List<Pet> GetPetsWithType(AnimalType petType);
         void DeletePetById(int idForDeleting);
         Pet GetPetById(int id);
+        void EditPet(Pet petForEditing);
     }
 }

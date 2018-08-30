@@ -47,5 +47,9 @@ namespace EASV.PetShopConsol.Core.Application.Impl
             return _PetRepo.SavePet(pet);
         }
 
+        public void EditPet(Pet petForEditing)
+        {
+            _PetRepo.EditPet(petForEditing);
+        }
     }
 }

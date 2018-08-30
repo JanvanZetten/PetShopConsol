@@ -50,6 +50,11 @@ namespace EASV.PetShopConsol.Infrastructure
             });
         }
 
+        internal void UpdatePet(Pet newPet)
+        {
+            pets = pets.Select(pet => pet.Id == newPet.Id ? newPet : pet).ToList();
+        }
+
         internal void DeletePet(Pet pet)
         {
             pets = pets.Where(petFromList => !petFromList.Equals(pet));
