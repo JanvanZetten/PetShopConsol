@@ -16,11 +16,11 @@ namespace EASV.PetShopConsol.Core.Application.Impl
 
         public void DeletePetById(int id)
         {
-            var pet = getPetById(id);
+            var pet = GetPetById(id);
             _PetRepo.DeletePet(pet);
         }
 
-        private Pet getPetById(int id)
+        public Pet GetPetById(int id)
         {
             return _PetRepo.GetPets().First(pet => pet.Id == id);
         }
@@ -46,5 +46,6 @@ namespace EASV.PetShopConsol.Core.Application.Impl
         {
             return _PetRepo.SavePet(pet);
         }
+
     }
 }

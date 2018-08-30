@@ -25,9 +25,10 @@ namespace EASV.PetShopConsol.Menu
                                   "2 - List All pets\n" +
                                   "3 - Pets by type\n" +
                                   "4 - Delete Pet\n" +
-                                  "5 - Exit");
-                int chossenMenuNum;
+                                  "5 - Edit Pet\n" +
+                                  "6 - Exit");
 
+                int chossenMenuNum;
 
                 do
                 {
@@ -59,11 +60,68 @@ namespace EASV.PetShopConsol.Menu
                         Console.WriteLine("Press enter to go back to menu...");
                         Console.ReadLine();
                         break;
+                    case MenuItems.EditPet:
+                        EditPet();
+                        Console.WriteLine("Press enter to go back to menu...");
+                        Console.ReadLine();
+                        break;
                 }
 
             } while (running);
 
 
+        }
+
+        private void EditPet()
+        {
+            ListPets();
+            Console.WriteLine("--------------------------------/n");
+            Console.WriteLine("Which pet do you want to Edit? enter the pets id:");
+            var idForEditing = ReadInt();
+            var petForEditing = _PetService.GetPetById(idForEditing);
+
+            Console.WriteLine("type y and press enter if you want to edit the name:");
+            if (Console.ReadLine().ToLower().Equals("y"))
+            {
+                Console.WriteLine("Whats the new name:");
+                petForEditing.Name = Console.ReadLine();
+            }
+            Console.WriteLine("type y and press enter if you want to edit the type:");
+            if (Console.ReadLine().ToLower().Equals("y"))
+            {
+                Console.WriteLine("Whats the new name:");
+                petForEditing.Type = chossePetType();
+            }
+            Console.WriteLine("type y and press enter if you want to edit the birthdate:");
+            if (Console.ReadLine().ToLower().Equals("y"))
+            {
+                Console.WriteLine("Whats the new birth year:");
+                var year = ReadInt();
+                Console.WriteLine("Whats the new birth month:");
+                var month = ReadInt(1, 12);
+                Console.WriteLine("Whats the new birth day:");
+                var day = ReadInt(1, DateTime.DaysInMonth(year, month));
+
+                petForEditing.Birthday = new DateTime(year, month, day);
+            }
+            Console.WriteLine("type y and press enter if you want to edit the color:");
+            if (Console.ReadLine().ToLower().Equals("y"))
+            {
+                Console.WriteLine("Whats the new color:");
+                petForEditing.Color = Console.ReadLine();
+            }
+            Console.WriteLine("type y and press enter if you want to edit the previous owner:");
+            if (Console.ReadLine().ToLower().Equals("y"))
+            {
+                Console.WriteLine("Whats the new previous owner:");
+                petForEditing.PreviousOwner = Console.ReadLine();
+            }
+            Console.WriteLine("type y and press enter if you want to edit the price:");
+            if (Console.ReadLine().ToLower().Equals("y"))
+            {
+                Console.WriteLine("Whats the new price:");
+                petForEditing.Price = ReadDouble();
+            }
         }
 
         private void DeletePet()
@@ -123,7 +181,7 @@ namespace EASV.PetShopConsol.Menu
             var birthmonth = ReadInt(1, 12);
 
             Console.WriteLine("What is the pets birth day?");
-            var birthday = ReadInt(1, 31);
+            int birthday = ReadInt(1, DateTime.DaysInMonth(birthyear, birthmonth));
 
             Console.WriteLine("What color is the pet?");
             var color = Console.ReadLine();
@@ -176,7 +234,7 @@ namespace EASV.PetShopConsol.Menu
             input = Console.ReadLine();
             while (!int.TryParse(input, out num))
             {
-                Console.WriteLine("It has to a number");
+                Console.WriteLine("It has to be a number");
                 input = Console.ReadLine();
             }
             return num;
