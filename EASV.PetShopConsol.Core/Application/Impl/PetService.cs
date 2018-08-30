@@ -14,9 +14,25 @@ namespace EASV.PetShopConsol.Core.Application.Impl
             _PetRepo = petRepository;
         }
 
+        public void DeletePetById(int id)
+        {
+            var pet = getPetById(id);
+            _PetRepo.DeletePet(pet);
+        }
+
+        private Pet getPetById(int id)
+        {
+            return _PetRepo.GetPets().First(pet => pet.Id == id);
+        }
+
         public List<Pet> GetAllPets()
         {
             return _PetRepo.GetPets().ToList();
+        }
+
+        public List<Pet> GetPetsWithType(AnimalType petType)
+        {
+            return  _PetRepo.GetPets().Where(pet => pet.Type == petType).ToList();
         }
 
         public Pet MakeNewPet(string name, AnimalType type, int birthyear, int birthmonth, int birthday, string color, string previousOwner, double price)

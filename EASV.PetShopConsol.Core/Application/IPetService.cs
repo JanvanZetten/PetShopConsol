@@ -9,6 +9,7 @@ namespace EASV.PetShopConsol.Core.Application
         Pet MakeNewPet(string name, AnimalType type, int birthyear, int birthmonth, int birthday, string color, string previousOwner, double price);
         Pet SavePet(Pet pet);
         List<Pet> GetAllPets();
-        object GetPetsWithType(AnimalType petType);
+        List<Pet> GetPetsWithType(AnimalType petType);
+        void DeletePetById(int idForDeleting);
     }
 }

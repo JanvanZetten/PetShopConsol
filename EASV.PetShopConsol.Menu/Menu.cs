@@ -20,10 +20,12 @@ namespace EASV.PetShopConsol.Menu
             var running = true;
             do
             {
-
+                Console.Clear();
                 Console.WriteLine("1 - Add a pet\n" +
                                   "2 - List All pets\n" +
-                                  "3 - Exit");
+                                  "3 - Pets by type\n" +
+                                  "4 - Delete Pet\n" +
+                                  "5 - Exit");
                 int chossenMenuNum;
 
 
@@ -44,12 +46,45 @@ namespace EASV.PetShopConsol.Menu
                         break;
                     case MenuItems.ListAllPets:
                         ListPets();
+                        Console.WriteLine("Press enter to go back to menu...");
+                        Console.ReadLine();
+                        break;
+                    case MenuItems.PetsByType:
+                        PrintPetsByType();
+                        Console.WriteLine("Press enter to go back to menu...");
+                        Console.ReadLine();
+                        break;
+                    case MenuItems.DeletePet:
+                        DeletePet();
+                        Console.WriteLine("Press enter to go back to menu...");
+                        Console.ReadLine();
                         break;
                 }
 
             } while (running);
 
 
+        }
+
+        private void DeletePet()
+        {
+            ListPets();
+            Console.WriteLine("--------------------------------/n");
+            Console.WriteLine("Which pet do you want to delete? enter the pets id:");
+            var idForDeleting = ReadInt();
+            _PetService.DeletePetById(idForDeleting);
+        }
+
+        private void PrintPetsByType()
+        {
+            Console.WriteLine("Which type of pet do you want?");
+            var petType = chossePetType();
+            var petsWithType = _PetService.GetPetsWithType(petType);
+
+            foreach (var pet in petsWithType)
+            {
+                printPet(pet);
+            }
         }
 
         private void ListPets()
@@ -60,9 +95,6 @@ namespace EASV.PetShopConsol.Menu
             {
                 printPet(pet);
             }
-
-            Console.WriteLine("Press enter to go back to menu...");
-            Console.ReadLine();
         }
 
         private void printPet(Pet pet)
@@ -72,7 +104,7 @@ namespace EASV.PetShopConsol.Menu
                               $"type {Enum.GetName(typeof(AnimalType), pet.Type)}, " +
                               $"Birthday: {pet.Birthday.ToShortDateString()}, " +
                               $"Color: {pet.Color}, " +
-                              $"Previous owner: {pet.PreviousOwner}" +
+                              $"Previous owner: {pet.PreviousOwner}, " +
                               $"Price: {pet.Price}");
         }
 
@@ -88,10 +120,10 @@ namespace EASV.PetShopConsol.Menu
             var birthyear = ReadInt();
 
             Console.WriteLine("What is the pets birth month?");
-            var birthmonth = ReadInt(1,12);
+            var birthmonth = ReadInt(1, 12);
 
             Console.WriteLine("What is the pets birth day?");
-            var birthday = ReadInt(1,31);
+            var birthday = ReadInt(1, 31);
 
             Console.WriteLine("What color is the pet?");
             var color = Console.ReadLine();
@@ -104,6 +136,9 @@ namespace EASV.PetShopConsol.Menu
 
             var pet = _PetService.MakeNewPet(name, type, birthyear, birthmonth, birthday, color, previousOwner, price);
             _PetService.SavePet(pet);
+
+            Console.WriteLine("Press enter to go back to menu...");
+            Console.ReadLine();
         }
 
         private double ReadDouble()
@@ -121,10 +156,11 @@ namespace EASV.PetShopConsol.Menu
 
         private int ReadInt(int min, int max)
         {
-            int num;
+            int num = 0;
             string input;
             input = Console.ReadLine();
-            while (!int.TryParse(input, out num) && num < min && num > max)
+
+            while (!(int.TryParse(input, out num)) || num < min || num > max)
             {
                 Console.WriteLine($"It has to be a number between {min} and {max}");
                 input = Console.ReadLine();
@@ -154,7 +190,7 @@ namespace EASV.PetShopConsol.Menu
 
             for (int i = 0; i < animalTypes.Length; i++)
             {
-                Console.WriteLine($"{i+1}- {animalTypes[i]}");
+                Console.WriteLine($"{i + 1}- {animalTypes[i]}");
             }
             var input = Console.ReadLine();
 

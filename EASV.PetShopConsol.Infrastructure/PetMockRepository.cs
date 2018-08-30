@@ -9,6 +9,11 @@ namespace EASV.PetShopConsol.Infrastructure
     {
         private readonly PetMockDB mockDB = new PetMockDB();
 
+        public void DeletePet(Pet pet)
+        {
+            mockDB.DeletePet(pet);
+        }
+
         public IEnumerable<Pet> GetPets()
         {
             return mockDB.SelectAllFromPets();
