@@ -51,5 +51,18 @@ namespace EASV.PetShopConsol.Core.Application.Impl
         {
             _PetRepo.EditPet(petForEditing);
         }
+
+        public List<Pet> GetAllPetsSortedByPrice()
+        {
+            return _PetRepo.GetPets().OrderBy(pet => pet.Price).ToList();
+        }
+
+        public List<Pet> GetCheapestPets(int amount)
+        {
+            return _PetRepo.GetPets()
+                           .OrderBy(pet => pet.Price)
+                           .Take(amount < _PetRepo.GetPets().Count() ? amount: _PetRepo.GetPets().Count())
+                           .ToList();
+        }
     }
 }

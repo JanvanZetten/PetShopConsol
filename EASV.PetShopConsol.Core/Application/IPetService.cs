@@ -13,5 +13,7 @@ namespace EASV.PetShopConsol.Core.Application
         void DeletePetById(int idForDeleting);
         Pet GetPetById(int id);
         void EditPet(Pet petForEditing);
+        List<Pet> GetAllPetsSortedByPrice();
+        List<Pet> GetCheapestPets(int amount);
     }
 }
