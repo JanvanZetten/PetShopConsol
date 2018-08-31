@@ -8,9 +8,12 @@ namespace EASV.PetShopConsol.Menu
     public class petCRUD
     {
         private IPetService _PetService;
+        private ReadingHelper _ReadingHelper;
+
         public petCRUD(IPetService petService)
         {
             _PetService = petService;
+            _ReadingHelper = new ReadingHelper();
         }
 
         internal void GetCheapest(int amount)
@@ -40,7 +43,7 @@ namespace EASV.PetShopConsol.Menu
             ListPets();
             Console.WriteLine("--------------------------------/n");
             Console.WriteLine("Which pet do you want to Edit? enter the pets id:");
-            var idForEditing = ReadInt();
+            var idForEditing = _ReadingHelper.ReadInt();
             var petForEditing = _PetService.GetPetById(idForEditing);
 
             Console.WriteLine("type y and press enter if you want to edit the name:");
@@ -53,17 +56,17 @@ namespace EASV.PetShopConsol.Menu
             if (Console.ReadLine().ToLower().Equals("y"))
             {
                 Console.WriteLine("Whats the new name:");
-                petForEditing.Type = chossePetType();
+                petForEditing.Type = _ReadingHelper.chossePetType();
             }
             Console.WriteLine("type y and press enter if you want to edit the birthdate:");
             if (Console.ReadLine().ToLower().Equals("y"))
             {
                 Console.WriteLine("Whats the new birth year:");
-                var year = ReadInt();
+                var year = _ReadingHelper.ReadInt();
                 Console.WriteLine("Whats the new birth month:");
-                var month = ReadInt(1, 12);
+                var month = _ReadingHelper.ReadInt(1, 12);
                 Console.WriteLine("Whats the new birth day:");
-                var day = ReadInt(1, DateTime.DaysInMonth(year, month));
+                var day = _ReadingHelper.ReadInt(1, DateTime.DaysInMonth(year, month));
 
                 petForEditing.Birthday = new DateTime(year, month, day);
             }
@@ -83,7 +86,7 @@ namespace EASV.PetShopConsol.Menu
             if (Console.ReadLine().ToLower().Equals("y"))
             {
                 Console.WriteLine("Whats the new price:");
-                petForEditing.Price = ReadDouble();
+                petForEditing.Price = _ReadingHelper.ReadDouble();
             }
             _PetService.EditPet(petForEditing);
         }
@@ -93,14 +96,14 @@ namespace EASV.PetShopConsol.Menu
             ListPets();
             Console.WriteLine("--------------------------------/n");
             Console.WriteLine("Which pet do you want to delete? enter the pets id:");
-            var idForDeleting = ReadInt();
+            var idForDeleting = _ReadingHelper.ReadInt();
             _PetService.DeletePetById(idForDeleting);
         }
 
         internal void PrintPetsByType()
         {
             Console.WriteLine("Which type of pet do you want?");
-            var petType = chossePetType();
+            var petType = _ReadingHelper.chossePetType();
             var petsWithType = _PetService.GetPetsWithType(petType);
 
             foreach (var pet in petsWithType)
@@ -134,16 +137,16 @@ namespace EASV.PetShopConsol.Menu
             var name = Console.ReadLine();
 
             Console.WriteLine("What type of pet is it?");
-            var type = chossePetType();
+            var type = _ReadingHelper.chossePetType();
 
             Console.WriteLine("What is the pets birth year?");
-            var birthyear = ReadInt();
+            var birthyear = _ReadingHelper.ReadInt();
 
             Console.WriteLine("What is the pets birth month?");
-            var birthmonth = ReadInt(1, 12);
+            var birthmonth = _ReadingHelper.ReadInt(1, 12);
 
             Console.WriteLine("What is the pets birth day?");
-            int birthday = ReadInt(1, DateTime.DaysInMonth(birthyear, birthmonth));
+            int birthday = _ReadingHelper.ReadInt(1, DateTime.DaysInMonth(birthyear, birthmonth));
 
             Console.WriteLine("What color is the pet?");
             var color = Console.ReadLine();
@@ -152,73 +155,13 @@ namespace EASV.PetShopConsol.Menu
             var previousOwner = Console.ReadLine();
 
             Console.WriteLine("What is the price of the pet?");
-            var price = ReadDouble();
+            var price = _ReadingHelper.ReadDouble();
 
             var pet = _PetService.MakeNewPet(name, type, birthyear, birthmonth, birthday, color, previousOwner, price);
             _PetService.SavePet(pet);
 
         }
 
-        private double ReadDouble()
-        {
-            double num;
-            string input;
-            input = Console.ReadLine();
-            while (!double.TryParse(input, out num))
-            {
-                Console.WriteLine("It has to be a decimal number");
-                input = Console.ReadLine();
-            }
-            return num;
-        }
 
-        private int ReadInt(int min, int max)
-        {
-            int num = 0;
-            string input;
-            input = Console.ReadLine();
-
-            while (!(int.TryParse(input, out num)) || num < min || num > max)
-            {
-                Console.WriteLine($"It has to be a number between {min} and {max}");
-                input = Console.ReadLine();
-            }
-
-            return num;
-        }
-
-        private int ReadInt()
-        {
-            int num;
-            string input;
-            input = Console.ReadLine();
-            while (!int.TryParse(input, out num))
-            {
-                Console.WriteLine("It has to be a number");
-                input = Console.ReadLine();
-            }
-            return num;
-        }
-
-
-        private AnimalType chossePetType()
-        {
-            var animalTypes = Enum.GetNames(typeof(AnimalType));
-            int index;
-
-            for (int i = 0; i < animalTypes.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}- {animalTypes[i]}");
-            }
-            var input = Console.ReadLine();
-
-            while (!int.TryParse(input, out index) && index < 1 && index > animalTypes.Length)
-            {
-                Console.WriteLine($"Chosse a number between 1 and {animalTypes.Length}");
-                input = Console.ReadLine();
-            }
-
-            return (AnimalType)(index - 1);
-        }
     }
 }
