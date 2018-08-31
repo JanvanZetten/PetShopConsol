@@ -9,11 +9,11 @@ namespace EASV.PetShopConsol.Menu
     public class Menu
     {
         private readonly IPetService _PetService;
-        private readonly petCRUD _PetCrud;
+        private readonly PetCRUD _PetCrud;
         public Menu(IPetService petService)
         {
             _PetService = petService;
-            _PetCrud = new petCRUD(petService);
+            _PetCrud = new PetCRUD(petService);
             PrintMainMenu();
         }
 

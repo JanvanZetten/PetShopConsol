@@ -5,12 +5,12 @@ using EASV.PetShopConsol.Core.Entity;
 
 namespace EASV.PetShopConsol.Menu
 {
-    public class petCRUD
+    public class PetCRUD
     {
         private IPetService _PetService;
         private ReadingHelper _ReadingHelper;
 
-        public petCRUD(IPetService petService)
+        public PetCRUD(IPetService petService)
         {
             _PetService = petService;
             _ReadingHelper = new ReadingHelper();
@@ -21,14 +21,6 @@ namespace EASV.PetShopConsol.Menu
             List<Pet> pets = _PetService.GetCheapestPets(amount);
 
             printPetList(pets);
-        }
-
-        private void printPetList(List<Pet> pets)
-        {
-            foreach (var pet in pets)
-            {
-                printPet(pet);
-            }
         }
 
         internal void GetPetsByPrice()
@@ -119,17 +111,7 @@ namespace EASV.PetShopConsol.Menu
             printPetList(pets);
         }
 
-        private void printPet(Pet pet)
-        {
-            Console.WriteLine($"Id: {pet.Id}, " +
-                              $"Name: {pet.Name}, " +
-                              $"type {Enum.GetName(typeof(AnimalType), pet.Type)}, " +
-                              $"Birthday: {pet.Birthday.ToShortDateString()}, " +
-                              $"Age: {new DateTime((DateTime.Now - pet.Birthday).Ticks).Year - 1}, " +
-                              $"Color: {pet.Color}, " +
-                              $"Previous owner: {pet.PreviousOwner}, " +
-                              $"Price: {pet.Price}");
-        }
+
 
         internal void AddPet()
         {
@@ -162,6 +144,30 @@ namespace EASV.PetShopConsol.Menu
 
         }
 
+
+        #region PrintHelpers
+
+        private void printPetList(List<Pet> pets)
+        {
+            foreach (var pet in pets)
+            {
+                printPet(pet);
+            }
+        }
+
+        private void printPet(Pet pet)
+        {
+            Console.WriteLine($"Id: {pet.Id}, " +
+                              $"Name: {pet.Name}, " +
+                              $"type {Enum.GetName(typeof(AnimalType), pet.Type)}, " +
+                              $"Birthday: {pet.Birthday.ToShortDateString()}, " +
+                              $"Age: {new DateTime((DateTime.Now - pet.Birthday).Ticks).Year - 1}, " +
+                              $"Color: {pet.Color}, " +
+                              $"Previous owner: {pet.PreviousOwner}, " +
+                              $"Price: {pet.Price}");
+        }
+
+        #endregion
 
     }
 }
