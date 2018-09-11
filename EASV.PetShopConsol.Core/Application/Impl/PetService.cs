@@ -35,7 +35,7 @@ namespace EASV.PetShopConsol.Core.Application.Impl
             return  _PetRepo.GetPets().Where(pet => pet.Type == petType).ToList();
         }
 
-        public Pet MakeNewPet(string name, AnimalType type, int birthyear, int birthmonth, int birthday, string color, string previousOwner, double price)
+        public Pet MakeNewPet(string name, AnimalType type, int birthyear, int birthmonth, int birthday, string color, Owner previousOwner, double price)
         {
             var birthDate = new DateTime(birthyear, birthmonth, birthday);
 

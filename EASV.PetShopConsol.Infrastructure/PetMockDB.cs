@@ -20,7 +20,7 @@ namespace EASV.PetShopConsol.Infrastructure
                     Birthday = new DateTime(2017, 10, 3),
                     Type = AnimalType.Bird,
                     Color = "Neon green",
-                    PreviousOwner = "Prince of Saudi Arabia",
+                    PreviousOwner = new Owner(){Id = 1},
                     Price = 2000000.00
                 });
                 InsertIntoPets(new Pet()
@@ -29,7 +29,7 @@ namespace EASV.PetShopConsol.Infrastructure
                     Birthday = new DateTime(2016, 2, 29),
                     Type = AnimalType.Dog,
                     Color = "Yellow",
-                    PreviousOwner = "Donald Trump",
+                    PreviousOwner = new Owner() { Id = 2 },
                     Price = 900000.00
                 });
                 InsertIntoPets(new Pet()
@@ -38,7 +38,7 @@ namespace EASV.PetShopConsol.Infrastructure
                     Birthday = new DateTime(2018, 4, 12),
                     Type = AnimalType.Dog,
                     Color = "Brown",
-                    PreviousOwner = "Erik",
+                    PreviousOwner = new Owner() { Id = 3 },
                     Price = 1000.00
                 });
                 InsertIntoPets(new Pet()
@@ -47,7 +47,7 @@ namespace EASV.PetShopConsol.Infrastructure
                     Birthday = new DateTime(1030, 6, 3),
                     Type = AnimalType.Snake,
                     Color = "Green, brown and black",
-                    PreviousOwner = "Rolf Krake",
+                    PreviousOwner = new Owner() { Id = 1 },
                     Price = 1.00
                 });
             }
