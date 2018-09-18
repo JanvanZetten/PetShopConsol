@@ -26,10 +26,11 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
         public ActionResult<IEnumerable<Pet>> Get()
         {
             var pets = _petService.GetAllPets();
-            foreach (var pet in pets)
-            {
-                pet.PreviousOwner = _ownerService.GetOwner(pet.PreviousOwner.Id);
-            }
+
+            //foreach (var pet in pets)
+            //{
+            //    pet.PreviousOwner = _ownerService.GetOwner(pet.PreviousOwner.Id);
+            //}
 
             return pets; 
         }
@@ -38,22 +39,50 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
         {
-            var pet = _petService.GetPetById(id);
+            Pet pet;
+            try
+            {
+                pet = _petService.GetPetById(id);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+
+            if (pet == null) return NotFound();
             pet.PreviousOwner = _ownerService.GetOwner(pet.PreviousOwner.Id);
-            return pet;
+            return Ok(pet);
+
         }
 
         // POST api/pets
         [HttpPost]
-        public void Post([FromBody] Pet newPet)
+        public ActionResult<Pet> Post([FromBody] Pet newPet)
         {
-            _petService.SavePet(newPet);
+            var owner = newPet.PreviousOwner;
+
+            //no ID But a new Owner
+            if (owner != null && owner.Id <= 0 && owner.FirstName != null && owner.LastName != null){
+                owner = _ownerService.AddOwner(owner);
+                newPet.PreviousOwner = new Owner() { Id = owner.Id };
+            }
+
+            try
+            {
+                return Ok(_petService.SavePet(newPet));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+
         }
 
         // PUT api/pets/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Pet updatedPet)
         {
+            updatedPet.Id = id;
             _petService.EditPet(updatedPet);
         }
 

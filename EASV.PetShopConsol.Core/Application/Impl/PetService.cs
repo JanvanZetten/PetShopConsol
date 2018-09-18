@@ -9,20 +9,30 @@ namespace EASV.PetShopConsol.Core.Application.Impl
     public class PetService: IPetService
     {
         private readonly IPetRepository _PetRepo;
-        public PetService(IPetRepository petRepository)
+        private readonly IOwnerService _OwnerService;
+        public PetService(IPetRepository petRepository, IOwnerService ownerService)
         {
             _PetRepo = petRepository;
+            _OwnerService = ownerService;
         }
 
         public void DeletePetById(int id)
         {
             var pet = GetPetById(id);
+            if (pet == null){
+                throw new ArgumentException("No pet with this id");
+            }
             _PetRepo.DeletePet(pet);
         }
 
         public Pet GetPetById(int id)
         {
-            return _PetRepo.GetPets().First(pet => pet.Id == id);
+            var pet = _PetRepo.GetPets().First(petI => petI.Id == id);
+            if (pet == null)
+            {
+                throw new ArgumentException("No pet with this id");
+            }
+            return pet;
         }
 
         public List<Pet> GetAllPets()
@@ -44,6 +54,11 @@ namespace EASV.PetShopConsol.Core.Application.Impl
 
         public Pet SavePet(Pet pet)
         {
+            if (_OwnerService.GetOwner(pet.PreviousOwner.Id) == null)
+            {
+                throw new ArgumentException("There is no Owner with this id");
+            }
+
             return _PetRepo.SavePet(pet);
         }
 

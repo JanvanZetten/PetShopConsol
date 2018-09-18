@@ -14,9 +14,9 @@ namespace EASV.PetShopConsol.Core.Application.Impl
             _OwnerRepository = ownerRepository;
         }
 
-        public void AddOwner(Owner newOwner)
+        public Owner AddOwner(Owner newOwner)
         {
-            _OwnerRepository.AddOwner(newOwner);
+            return _OwnerRepository.AddOwner(newOwner);
         }
 
         public void Delete(int id)

@@ -8,7 +8,7 @@ namespace EASV.PetShopConsol.Core.Application
     {
         List<Owner> GetAllOwners();
         Owner GetOwner(int id);
-        void AddOwner(Owner newOwner);
+        Owner AddOwner(Owner newOwner);
         void Delete(int id);
         void UpdateOwner(int id, Owner owner);
     }
