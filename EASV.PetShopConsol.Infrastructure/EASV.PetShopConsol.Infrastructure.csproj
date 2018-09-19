@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <PackageVersion>1.0</PackageVersion>
+    <Authors>Jan van Zetten</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,5 +12,24 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="infrastructureEntityFramwork\obj\Debug\netcoreapp2.1\EAVS.PetShopConsol.infrastructureEntityFramwork.assets.cache" />
+    <None Remove="infrastructureEntityFramwork\obj\EAVS.PetShopConsol.infrastructureEntityFramwork.csproj.nuget.cache" />
+    <None Remove="infrastructureEntityFramwork\obj\EAVS.PetShopConsol.infrastructureEntityFramwork.csproj.nuget.g.props" />
+    <None Remove="infrastructureEntityFramwork\obj\EAVS.PetShopConsol.infrastructureEntityFramwork.csproj.nuget.g.targets" />
+    <None Remove="infrastructureEntityFramwork\obj\infrastructureEntityFramwork.csproj.nuget.cache" />
+    <None Remove="infrastructureEntityFramwork\obj\infrastructureEntityFramwork.csproj.nuget.g.props" />
+    <None Remove="infrastructureEntityFramwork\obj\infrastructureEntityFramwork.csproj.nuget.g.targets" />
+    <None Remove="infrastructureEntityFramwork\obj\project.assets.json" />
+    <None Remove="infrastructureEntityFramwork\obj\Debug\netcoreapp2.1\infrastructureEntityFramwork.assets.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="infrastructureEntityFramwork\OwnerDBRepository.cs" />
+    <Compile Remove="infrastructureEntityFramwork\PetContext.cs" />
+    <Compile Remove="infrastructureEntityFramwork\PetDBRepository.cs" />
+    <Compile Remove="OwnerDBRepository.cs" />
+    <Compile Remove="PetContext.cs" />
+    <Compile Remove="PetDBRepository.cs" />
   </ItemGroup>
 </Project>

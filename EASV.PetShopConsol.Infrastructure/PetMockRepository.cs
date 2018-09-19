@@ -25,6 +25,11 @@ namespace EASV.PetShopConsol.Infrastructure
             return mockDB.SelectAllFromPets();
         }
 
+        public IEnumerable<Pet> GetPetsWithOwner()
+        {
+            throw new NotImplementedException();
+        }
+
         public Pet SavePet(Pet pet)
         {
             return mockDB.InsertIntoPets(pet);

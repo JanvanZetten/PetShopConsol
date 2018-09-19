@@ -27,7 +27,7 @@ namespace EASV.PetShopConsol.Core.Application.Impl
 
         public Pet GetPetById(int id)
         {
-            var pet = _PetRepo.GetPets().First(petI => petI.Id == id);
+            var pet = _PetRepo.GetPetsWithOwner().First(petI => petI.Id == id);
             if (pet == null)
             {
                 throw new ArgumentException("No pet with this id");
@@ -42,7 +42,7 @@ namespace EASV.PetShopConsol.Core.Application.Impl
 
         public List<Pet> GetPetsWithType(AnimalType petType)
         {
-            return  _PetRepo.GetPets().Where(pet => pet.Type == petType).ToList();
+            return  _PetRepo.GetPetsWithOwner().Where(pet => pet.Type == petType).ToList();
         }
 
         public Pet MakeNewPet(string name, AnimalType type, int birthyear, int birthmonth, int birthday, string color, Owner previousOwner, double price)

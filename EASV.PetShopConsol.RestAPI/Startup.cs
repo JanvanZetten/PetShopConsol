@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using EASV.PetShopConsol.Core.Application;
 using EASV.PetShopConsol.Core.Application.Impl;
 using EASV.PetShopConsol.Core.Domain;
-using EASV.PetShopConsol.Infrastructure;
+using EASV.PetShopConsol.InfrastructureEntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,12 +35,13 @@ namespace EASV.PetShopConsol.RestAPI
             if (Environment.IsDevelopment())
             {
                 // In-memory database:
-                services.AddDbContext<PetContext>(opt => opt.UseInMemoryDatabase("PetsList"));
+                //services.AddDbContext<PetConsolContext>(opt => opt.UseInMemoryDatabase("PetsList"));
+                services.AddDbContext<PetConsolContext>(opt => opt.UseSqlite("Data Source = petConsolApp.db"));
             }
             else
             {
                 // SQL Server on Azure:
-                services.AddDbContext<PetContext>(opt =>
+                services.AddDbContext<PetConsolContext>(opt =>
                          opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
             }
 
@@ -59,6 +60,13 @@ namespace EASV.PetShopConsol.RestAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var ctx = scope.ServiceProvider.GetService<PetConsolContext>();
+                    ctx.Database.EnsureDeleted();
+                    ctx.Database.EnsureCreated();
+                    DBInitializer.Initialize(ctx);
+                }
             }
             else
             {

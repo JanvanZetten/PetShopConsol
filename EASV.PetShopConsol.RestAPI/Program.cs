@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using EASV.PetShopConsol.Infrastructure;
+using EASV.PetShopConsol.InfrastructureEntityFramework;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,14 +18,6 @@ namespace EASV.PetShopConsol.RestAPI
         {
             // Build host
             var host = BuildWebHost(args);
-
-            // Initialize the database
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var dbContext = services.GetService<PetContext>();
-                DBInitializer.Initialize(dbContext);
-            }
 
             // Run host
             host.Run();

@@ -50,7 +50,7 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             }
 
             if (pet == null) return NotFound();
-            pet.PreviousOwner = _ownerService.GetOwner(pet.PreviousOwner.Id);
+            //pet.PreviousOwner = _ownerService.GetOwner(pet.PreviousOwner.Id);
             return Ok(pet);
 
         }
