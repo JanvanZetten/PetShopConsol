@@ -20,4 +20,7 @@
     <ProjectReference Include="..\EASV.PetShopConsol.Core.Entity\EASV.PetShopConsol.Core.Entity.csproj" />
     <ProjectReference Include="..\EASV.PetShopConsol.InfrastructureEntityFramework\EASV.PetShopConsol.InfrastructureEntityFramework.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="petConsolApp.db" />
+  </ItemGroup>
 </Project>

@@ -45,7 +45,10 @@ namespace EASV.PetShopConsol.RestAPI
                          opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
             }
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            var MVC = services.AddMvc();
+            MVC.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //MVC.AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 
             services.AddScoped<IPetRepository, PetDBRepository>();
             services.AddScoped<IPetService, PetService>();

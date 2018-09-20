@@ -20,7 +20,7 @@ namespace EASV.PetShopConsol.InfrastructureEntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Owner>()
-                        .HasMany<Pet>()
+                        .HasMany(o => o.PreviousPets)
                         .WithOne(p => p.PreviousOwner)
                         .OnDelete(DeleteBehavior.SetNull);
         }
