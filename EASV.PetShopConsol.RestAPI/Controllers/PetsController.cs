@@ -21,18 +21,24 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             _ownerService = ownerService;
         }
 
+
         // GET api/pets
         [HttpGet]
         public ActionResult<IEnumerable<Pet>> Get()
         {
             var pets = _petService.GetAllPets();
 
-            //foreach (var pet in pets)
-            //{
-            //    pet.PreviousOwner = _ownerService.GetOwner(pet.PreviousOwner.Id);
-            //}
-
             return pets; 
+        }
+
+        // GET api/pets/withPaging/page=1&items=1
+        [HttpGet("withPaging")]
+        public ActionResult<IEnumerable<Pet>> Get([FromQuery] int page, [FromQuery] int items)
+        {
+            var pets = _petService.GetAllPetsPaged(page, items); //TODO Remove the withPaging and join the get and get with paging 
+                                                                      //by chekcing if the page or/and the items is null or zero
+
+            return pets;
         }
 
         // GET api/pets/5
@@ -49,10 +55,7 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
                 return NotFound(ex.Message);
             }
 
-            if (pet == null) return NotFound();
-            //pet.PreviousOwner = _ownerService.GetOwner(pet.PreviousOwner.Id);
-            return Ok(pet);
-
+            return pet == null ? (ActionResult<Pet>)NotFound() : (ActionResult<Pet>)Ok(pet);
         }
 
         // POST api/pets

@@ -11,5 +11,6 @@ namespace EASV.PetShopConsol.Core.Domain
         IEnumerable<Pet> GetPetsWithOwner();
         void DeletePet(Pet pet);
         void EditPet(Pet petForEditing);
+        int CountPets();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EASV.PetShopConsol.Core.Domain;
 using EASV.PetShopConsol.Core.Entity;
 using System.Linq;
+using System.IO;
 
 namespace EASV.PetShopConsol.Core.Application.Impl
 {
@@ -69,7 +70,9 @@ namespace EASV.PetShopConsol.Core.Application.Impl
 
         public List<Pet> GetAllPetsSortedByPrice()
         {
-            return _PetRepo.GetPets().OrderBy(pet => pet.Price).ToList();
+            return _PetRepo.GetPets()
+                           .OrderBy(pet => pet.Price)
+                           .ToList();
         }
 
         public List<Pet> GetCheapestPets(int amount)
@@ -78,6 +81,20 @@ namespace EASV.PetShopConsol.Core.Application.Impl
                            .OrderBy(pet => pet.Price)
                            .Take(amount < _PetRepo.GetPets().Count() ? amount: _PetRepo.GetPets().Count())
                            .ToList();
+        }
+
+        public List<Pet> GetAllPetsPaged(int page, int itemsPrPage)
+        {
+            if (page <= 0 || itemsPrPage <= 0 )
+                throw new InvalidDataException("CurrentPage and ItemsPage Must zero or more");
+            if (page -1 * itemsPrPage > _PetRepo.CountPets())
+                throw new InvalidDataException("Index out bounds, CurrentPage is to high");
+
+            return _PetRepo.GetPets()
+                           .Skip((page - 1) * itemsPrPage)
+                           .Take(itemsPrPage)
+                           .ToList();
+
         }
     }
 }

@@ -18,20 +18,21 @@ namespace EASV.PetShopConsol.InfrastructureEntityFramework
             _ownerRepo = ownerRepo;
         }
 
+        public int CountPets()
+        {
+            return _ctx.Pets.Count();
+        }
 
         public void DeletePet(Pet pet)
         {
             _ctx.Pets.Remove(pet);
+            _ctx.SaveChanges();
         }
 
         public void EditPet(Pet petForEditing)
         {
-            if (petForEditing.PreviousOwner.Id > 0)
-            {
-                petForEditing.PreviousOwner = new Owner() { Id = petForEditing.Id };
-                _ctx.Attach(petForEditing.PreviousOwner);
-            }
-            _ctx.Update<Pet>(petForEditing);
+            _ctx.Attach(petForEditing).State = EntityState.Modified;
+            _ctx.Entry(petForEditing).Reference(p => p.PreviousOwner).IsModified = true;
             
             _ctx.SaveChanges();
         }
@@ -48,9 +49,11 @@ namespace EASV.PetShopConsol.InfrastructureEntityFramework
 
         public Pet SavePet(Pet pet)
         {
-            var made = _ctx.Pets.Add(pet).Entity;
+            pet.Id = 0;
+
+            _ctx.Attach(pet).State = EntityState.Added;
             _ctx.SaveChanges();
-            return made;
+            return pet;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EASV.PetShopConsol.Core.Domain;
 using EASV.PetShopConsol.Core.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EASV.PetShopConsol.InfrastructureEntityFramework
 {
@@ -17,14 +18,14 @@ namespace EASV.PetShopConsol.InfrastructureEntityFramework
 
         public Owner AddOwner(Owner newOwner)
         {
-            var savedOwner = _ctx.Owners.Add(newOwner).Entity;
+            _ctx.Attach(newOwner).State = EntityState.Added;
             _ctx.SaveChanges();
-            return savedOwner;
+            return newOwner;
         }
 
         public void DeleteOwner(int id)
         {
-            _ctx.Owners.Remove(_ctx.Owners.FirstOrDefault(owner => owner.Id == id));
+            _ctx.Owners.Remove(new Owner { Id = id });
             _ctx.SaveChanges();
         }
 
@@ -35,10 +36,10 @@ namespace EASV.PetShopConsol.InfrastructureEntityFramework
 
         public void UpdateOwner(int id, Owner newOwner)
         {
-            var oldOwner = _ctx.Owners.FirstOrDefault(owner => owner.Id == id);
-            oldOwner.FirstName = newOwner.FirstName;
-            oldOwner.LastName = newOwner.LastName;
+            newOwner.Id = id;
+            _ctx.Attach(newOwner).State = EntityState.Modified;
             _ctx.SaveChanges();
+
         }
     }
 }
