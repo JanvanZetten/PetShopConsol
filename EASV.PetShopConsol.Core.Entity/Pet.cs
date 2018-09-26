@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace EASV.PetShopConsol.Core.Entity
 {
     public class Pet
@@ -7,8 +9,8 @@ namespace EASV.PetShopConsol.Core.Entity
         public string Name { get; set; }
         public AnimalType Type { get; set; }
         public DateTime Birthday { get; set; }
-        //public DateTime SoldDate { get; set; }
-        public string Color { get; set; }
+        public string Color { get; set; } // THIS COLOR should be deleted when the petColors is fully implemented
+        public List<PetColor> PetColors { get; set; }
         public Owner PreviousOwner { get; set; }
         public double Price { get; set; }
     }
