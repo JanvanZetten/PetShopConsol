@@ -21,7 +21,7 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             _ownerService = ownerService;
         }
 
-
+        /*
         // GET api/pets
         [HttpGet]
         public ActionResult<IEnumerable<Pet>> Get()
@@ -29,15 +29,17 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             var pets = _petService.GetAllPets();
 
             return pets; 
-        }
+        }*/
 
-        // GET api/pets/withPaging/page=1&items=1
-        [HttpGet("withPaging")]
+        // GET api/pets/page=1&items=2 OR GET api/pets
+        [HttpGet()]
         public ActionResult<IEnumerable<Pet>> Get([FromQuery] int page, [FromQuery] int items)
         {
-            var pets = _petService.GetAllPetsPaged(page, items); //TODO Remove the withPaging and join the get and get with paging 
-                                                                      //by chekcing if the page or/and the items is null or zero
-
+            List<Pet> pets;
+            if (page < 1 || items < 1)
+                pets = _petService.GetAllPets();
+            else
+                pets = _petService.GetAllPetsPaged(page, items);
             return pets;
         }
 
@@ -65,7 +67,8 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             var owner = newPet.PreviousOwner;
 
             //no ID But a new Owner
-            if (owner != null && owner.Id <= 0 && owner.FirstName != null && owner.LastName != null){
+            if (owner != null && owner.Id <= 0 && owner.FirstName != null && owner.LastName != null)
+            {
                 owner = _ownerService.AddOwner(owner);
                 newPet.PreviousOwner = new Owner() { Id = owner.Id };
             }
@@ -74,7 +77,7 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             {
                 return Ok(_petService.SavePet(newPet));
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return NotFound(ex.Message);
             }

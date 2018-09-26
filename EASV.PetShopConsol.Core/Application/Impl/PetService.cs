@@ -55,9 +55,12 @@ namespace EASV.PetShopConsol.Core.Application.Impl
 
         public Pet SavePet(Pet pet)
         {
-            if (_OwnerService.GetOwner(pet.PreviousOwner.Id) == null)
+            if (pet.PreviousOwner != null)
             {
-                throw new ArgumentException("There is no Owner with this id");
+                if (_OwnerService.GetOwner(pet.PreviousOwner.Id) == null)
+                {
+                    throw new ArgumentException("There is no Owner with this id");
+                }
             }
 
             return _PetRepo.SavePet(pet);

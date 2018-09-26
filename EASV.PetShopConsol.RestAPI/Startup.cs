@@ -20,19 +20,30 @@ namespace EASV.PetShopConsol.RestAPI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        /*public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
             Environment = env;
-        }
+        }*/
 
-        public IConfiguration Configuration { get; }
-        public IHostingEnvironment Environment { get; }
+        public IConfiguration _conf { get; }
+        public IHostingEnvironment _env { get; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            _env = env;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            _conf = builder.Build();
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (Environment.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 // In-memory database:
                 //services.AddDbContext<PetConsolContext>(opt => opt.UseInMemoryDatabase("PetsList"));
@@ -42,7 +53,7 @@ namespace EASV.PetShopConsol.RestAPI
             {
                 // SQL Server on Azure:
                 services.AddDbContext<PetConsolContext>(opt =>
-                         opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+                         opt.UseSqlServer(_conf.GetConnectionString("defaultConnection")));
             }
 
             var MVC = services.AddMvc();
@@ -73,6 +84,11 @@ namespace EASV.PetShopConsol.RestAPI
             }
             else
             {
+                using (var scope = app.ApplicationServices.CreateScope())
+                {
+                    var ctx = scope.ServiceProvider.GetService<PetConsolContext>();
+                    ctx.Database.EnsureCreated();
+                }
                 app.UseHsts();
             }
 
