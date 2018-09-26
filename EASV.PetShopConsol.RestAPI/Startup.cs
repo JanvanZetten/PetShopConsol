@@ -65,6 +65,8 @@ namespace EASV.PetShopConsol.RestAPI
             services.AddScoped<IPetService, PetService>();
             services.AddScoped<IOwnerService, OwnerService>();
             services.AddScoped<IOwnerRepository, OwnerDBRepository>();
+            services.AddScoped<IPetColorService, PetColorService>();
+            services.AddScoped<IPetColorRepository, PetColorDBRepository>();
 
         }
 

@@ -69,9 +69,17 @@ namespace EASV.PetShopConsol.RestAPI
                 }
             };
 
+            List<PetColor> petColors = new List<PetColor>
+            {
+                new PetColor(){ColorName = "Blue"},
+                new PetColor(){ColorName = "Red"},
+                new PetColor(){ColorName = "Green"}
+            };
+
 
             context.Owners.AddRange(ownersItems);
             context.Pets.AddRange(petItems);
+            context.PetColors.AddRange(petColors);
             context.SaveChanges();
 
         }
