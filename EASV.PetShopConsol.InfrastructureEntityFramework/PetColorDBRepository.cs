@@ -36,6 +36,7 @@ namespace EASV.PetShopConsol.InfrastructureEntityFramework
         public void UpdateColor(PetColor petColor)
         {
             _ctx.Attach(petColor).State = EntityState.Modified;
+            _ctx.Entry(petColor).Reference(pc => pc.PetsWithThisColor).IsModified = true;
             _ctx.SaveChanges();
         }
     }
