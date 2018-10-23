@@ -6,7 +6,7 @@ namespace EASV.PetShopConsol.Core.Application
 {
     public interface IPetService
     {
-        Pet MakeNewPet(string name, AnimalType type, int birthyear, int birthmonth, int birthday, string color, Owner previousOwner, double price);
+        Pet MakeNewPet(string name, AnimalType type, int birthyear, int birthmonth, int birthday, List<PetColorRelation> colorRelation, Owner previousOwner, double price);
         Pet SavePet(Pet pet);
         List<Pet> GetAllPets();
         List<Pet> GetPetsWithType(AnimalType petType);

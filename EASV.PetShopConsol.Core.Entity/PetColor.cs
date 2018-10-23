@@ -7,6 +7,6 @@ namespace EASV.PetShopConsol.Core.Entity
     {
         public int Id { get; set; }
         public string ColorName { get; set; }
-        //public List<Pet> PetsWithThisColor { get; set; }
+        public List<PetColorRelation> PetsWithThisColor { get; set; }
     }
 }

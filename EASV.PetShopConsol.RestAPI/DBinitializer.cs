@@ -42,16 +42,22 @@ namespace EASV.PetShopConsol.RestAPI
             {
                 new Pet(){
                     Name = "Fido",
-                    Color = "Black and white",
                     Birthday = DateTime.Now.AddYears(-2).AddMonths(-4).AddDays(5),
                     Price = 1000,
                     Type = AnimalType.Dog,
+                    PetColors = new List<PetColorRelation>(){
+                        new PetColorRelation(){
+                            PetColor = new PetColor()
+                            {
+                                ColorName = "Black"
+                            }
+                        }
+                    },
                     PreviousOwner = ownersItems[0]
                     
                 },
                 new Pet(){
                     Name = "Rolf",
-                    Color = "Black and white",
                     Birthday = DateTime.Now.AddYears(-1).AddMonths(-1).AddDays(5),
                     Price = 1000,
                     Type = AnimalType.Fish,
@@ -60,7 +66,6 @@ namespace EASV.PetShopConsol.RestAPI
                 },
                 new Pet(){
                     Name = "Bukke Bruse",
-                    Color = "gray",
                     Birthday = DateTime.Now.AddYears(-10).AddMonths(-4).AddDays(5),
                     Price = 1000,
                     Type = AnimalType.Goat,

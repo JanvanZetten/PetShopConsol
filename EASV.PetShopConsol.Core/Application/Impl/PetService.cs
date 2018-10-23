@@ -46,11 +46,11 @@ namespace EASV.PetShopConsol.Core.Application.Impl
             return  _PetRepo.GetPetsWithOwner().Where(pet => pet.Type == petType).ToList();
         }
 
-        public Pet MakeNewPet(string name, AnimalType type, int birthyear, int birthmonth, int birthday, string color, Owner previousOwner, double price)
+        public Pet MakeNewPet(string name, AnimalType type, int birthyear, int birthmonth, int birthday, List<PetColorRelation> colorRelation, Owner previousOwner, double price)
         {
             var birthDate = new DateTime(birthyear, birthmonth, birthday);
 
-            return new Pet() { Name = name, Type = type, Birthday = birthDate, Color = color, PreviousOwner = previousOwner, Price = price };
+            return new Pet() { Name = name, Type = type, Birthday = birthDate, PetColors = colorRelation, PreviousOwner = previousOwner, Price = price };
         }
 
         public Pet SavePet(Pet pet)
@@ -99,5 +99,6 @@ namespace EASV.PetShopConsol.Core.Application.Impl
                            .ToList();
 
         }
+
     }
 }

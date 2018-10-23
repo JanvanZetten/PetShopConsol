@@ -33,7 +33,8 @@ namespace EASV.PetShopConsol.InfrastructureEntityFramework
         {
             _ctx.Attach(petForEditing).State = EntityState.Modified;
             _ctx.Entry(petForEditing).Reference(p => p.PreviousOwner).IsModified = true;
-            
+            _ctx.Entry(petForEditing).Reference(p => p.PetColors).IsModified = true;
+
             _ctx.SaveChanges();
         }
 
@@ -44,7 +45,7 @@ namespace EASV.PetShopConsol.InfrastructureEntityFramework
 
         public IEnumerable<Pet> GetPetsWithOwner()
         {
-            return _ctx.Pets.Include(p => p.PreviousOwner);
+            return _ctx.Pets.Include(p => p.PreviousOwner).Include(p => p.PetColors);
         }
 
         public Pet SavePet(Pet pet)
