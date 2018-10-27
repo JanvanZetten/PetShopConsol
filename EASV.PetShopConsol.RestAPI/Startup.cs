@@ -6,6 +6,7 @@ using EASV.PetShopConsol.Core.Application;
 using EASV.PetShopConsol.Core.Application.Impl;
 using EASV.PetShopConsol.Core.Domain;
 using EASV.PetShopConsol.InfrastructureEntityFramework;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EASV.PetShopConsol.RestAPI
 {
@@ -38,11 +40,30 @@ namespace EASV.PetShopConsol.RestAPI
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             _conf = builder.Build();
+
+            JwtSecurityKey.SetSecret("a secret that needs to be at least 16 characters long");
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add JWT based authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    //ValidAudience = "TodoApiClient",
+                    ValidateIssuer = false,
+                    //ValidIssuer = "TodoApi",
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = JwtSecurityKey.Key,
+                    ValidateLifetime = true, //validate the expiration and not before values in the token
+                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                };
+            });
+
+
             if (_env.IsDevelopment())
             {
                 // In-memory database:
@@ -67,6 +88,8 @@ namespace EASV.PetShopConsol.RestAPI
             services.AddScoped<IOwnerRepository, OwnerDBRepository>();
             services.AddScoped<IPetColorService, PetColorService>();
             services.AddScoped<IPetColorRepository, PetColorDBRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepositorie, UserRepositorie>();
 
         }
 
@@ -95,6 +118,10 @@ namespace EASV.PetShopConsol.RestAPI
             }
 
             app.UseHttpsRedirection();
+
+            // Use authentication
+            app.UseAuthentication();
+
             app.UseMvc();
         }
     }

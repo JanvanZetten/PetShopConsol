@@ -18,6 +18,7 @@ namespace EASV.PetShopConsol.InfrastructureEntityFramework
         public DbSet<Owner> Owners { get; set; }
         public DbSet<PetColor> PetColors { get; set; }
         public DbSet<PetColorRelation> PetColorRelations { get; set; }
+        public DbSet<User> Users { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
