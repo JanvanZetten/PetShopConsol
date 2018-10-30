@@ -7,8 +7,11 @@ namespace EASV.PetShopConsol.Core.Entity
         {
         }
         public long Id { get; set; }
-        public String Password { get; set; }
-        public String Username { get; set; }
+
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
+
+        public string Username { get; set; }
         public bool IsAdmin { get; set; }
     }
 }

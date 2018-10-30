@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EASV.PetShopConsol.Core.Application;
 using EASV.PetShopConsol.Core.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EASV.PetShopConsol.RestAPI.Controllers
@@ -21,16 +22,7 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             _ownerService = ownerService;
         }
 
-        /*
-        // GET api/pets
-        [HttpGet]
-        public ActionResult<IEnumerable<Pet>> Get()
-        {
-            var pets = _petService.GetAllPets();
-
-            return pets; 
-        }*/
-
+        [Authorize]
         // GET api/pets/page=1&items=2 OR GET api/pets
         [HttpGet()]
         public ActionResult<IEnumerable<Pet>> Get([FromQuery] int page, [FromQuery] int items)
@@ -43,6 +35,7 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             return pets;
         }
 
+        [Authorize]
         // GET api/pets/5
         [HttpGet("{id}")]
         public ActionResult<Pet> Get(int id)
@@ -60,6 +53,7 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             return pet == null ? (ActionResult<Pet>)NotFound() : (ActionResult<Pet>)Ok(pet);
         }
 
+        [Authorize(Roles = "Administrator")]
         // POST api/pets
         [HttpPost]
         public ActionResult<Pet> Post([FromBody] Pet newPet)
@@ -84,6 +78,7 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
 
         }
 
+        [Authorize(Roles = "Administrator")]
         // PUT api/pets/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] Pet updatedPet)
@@ -92,6 +87,7 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
             _petService.EditPet(updatedPet);
         }
 
+        [Authorize(Roles = "Administrator")]
         // DELETE api/pets/5
         [HttpDelete("{id}")]
         public void Delete(int id)

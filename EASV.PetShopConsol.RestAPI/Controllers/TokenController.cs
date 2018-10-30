@@ -36,40 +36,18 @@ namespace EASV.PetShopConsol.RestAPI.Controllers
                 return Unauthorized();
 
             // check if password is correct
-            if (!model.Password.Equals(user.Password))
+            if (!_Service.CheckCorrectPassword(user, model))
                 return Unauthorized();
 
             // Authentication successful
             return Ok(new
             {
                 username = user.Username,
-                token = GenerateToken(user)
+                token = _Service.GenerateToken(user)
             });
         }
 
-        // This method generates and returns a JWT token for a user.
-        private string GenerateToken(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username)
-            };
 
-            if (user.IsAdmin)
-                claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
-
-            var token = new JwtSecurityToken(
-                new JwtHeader(new SigningCredentials(
-                    JwtSecurityKey.Key,
-                    SecurityAlgorithms.HmacSha256)),
-                new JwtPayload(null, // issuer - not needed (ValidateIssuer = false)
-                               null, // audience - not needed (ValidateAudience = false)
-                               claims.ToArray(),
-                               DateTime.Now,               // notBefore
-                               DateTime.Now.AddDays(1)));  // expires
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
     }
 
 
