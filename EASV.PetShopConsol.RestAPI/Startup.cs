@@ -47,6 +47,9 @@ namespace EASV.PetShopConsol.RestAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors();
+
             // Add JWT based authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
@@ -113,6 +116,7 @@ namespace EASV.PetShopConsol.RestAPI
                 {
                     var ctx = scope.ServiceProvider.GetService<PetConsolContext>();
                     ctx.Database.EnsureCreated();
+                    //DBInitializer.Initialize(ctx);
                 }
                 app.UseHsts();
             }
@@ -121,6 +125,8 @@ namespace EASV.PetShopConsol.RestAPI
 
             // Use authentication
             app.UseAuthentication();
+
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseMvc();
         }

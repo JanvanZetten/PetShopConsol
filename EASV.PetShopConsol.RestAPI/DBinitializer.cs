@@ -21,7 +21,7 @@ namespace EASV.PetShopConsol.RestAPI
             // is necessary, if you don't use an in-memory database.
             //context.Database.EnsureCreated();
 
-            // Look for any TodoItems
+            // Look for any PetItems
             if (context.Pets.Any())
             {
                 return;   // DB has been seeded
@@ -104,9 +104,11 @@ namespace EASV.PetShopConsol.RestAPI
                 }
             };
 
+
             context.Owners.AddRange(ownersItems);
-            context.Pets.AddRange(petItems);
             context.PetColors.AddRange(petColors);
+
+            context.Pets.AddRange(petItems);
             context.Users.AddRange(users);
             context.SaveChanges();
 
